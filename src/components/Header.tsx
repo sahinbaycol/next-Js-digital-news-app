@@ -17,9 +17,9 @@ export default function Header() {
     }
 
     const handleToggleMenu= () => {
-        setOn(!on)
+        setOn(!on);
         let body:HTMLElement | any = document.querySelector("body")
-        body.classlist.toggle("mobile-nav-active");
+        body.classList.toggle("mobile-nav-active");
     }
 
     return (
@@ -37,6 +37,13 @@ export default function Header() {
                         <a className='mx-2 js-search-open' onClick={handleFormOpen}>
                             <span className='bi-search'></span>
                         </a>
+                        {
+                            on ? (
+                                <i className='bi bi-x mobile-nav-toggle' onClick={handleToggleMenu}></i>
+                            ) : (
+                                <i className='bi bi-list mobile-nav-toggle' onClick={handleToggleMenu}></i>
+                            )
+                        }
                         <SearcForm active={open} formOpen={handleFormOpen}/>
                     </div>
                 </div>
