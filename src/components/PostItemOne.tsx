@@ -1,20 +1,11 @@
 import React from 'react'
 import './postItemOne.css'
 import Link from 'next/link';
+import { PostProps } from '@/sections/Posts';
 
 export default function PostItemOne({large, item} :{
     large:boolean;
-    item:{
-        _id:string;
-        img:string;
-        category:string;
-        date:string;
-        title:string;
-        brief:string;
-        avatar:string;
-        author:string;
-
-    }
+    item:PostProps
 }) {
   return (
     <div className={`post-entry-1 ${large ? 'lg' : undefined}`}>
