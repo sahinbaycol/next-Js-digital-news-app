@@ -6,13 +6,15 @@ import './style.css'
 import Image from 'next/image';
 import Preloader from '@/components/Preloader';
 import SidePostItem from '@/components/SidePostItem';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function PostItem({ params }: { params: Promise<{ id: string }>}) {
 
     // const id: string = params.id;
 
     const {id}= use(params)
-
+    const router=useRouter();
     const [item, setItem] = useState(initialPost);
     const [items, setItems] =useState([]);
 
@@ -50,6 +52,23 @@ export default function PostItem({ params }: { params: Promise<{ id: string }>})
         getItemsData();
     }, []);
 
+    const handleDeletePost= async (id:string)=>{
+        try {
+            const response= await fetch(`/api/postitems/${id}`, {
+                method:"DELETE",
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            })
+            const result=response.status;
+            if(result===200){
+                console.log("Success", result)
+                router.push(`/postitems`)
+            }
+        } catch (error) {
+            console.log("Error", error)
+        }
+    }
 
     return (
         <main id="main">
@@ -92,6 +111,13 @@ export default function PostItem({ params }: { params: Promise<{ id: string }>})
                                 <p>
                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                                 </p>
+                                <div className="d-flex justify-content-center gap-4">
+                                    <a className="btn btn-primary" onClick={()=>handleDeletePost(id)}>
+                                        <i className="bi bi-trash"></i>
+                                    </a>
+                                    <Link href={`/createpostitem/${id}`} className='btn btn-primary'>
+                                    <i className="bi bi-pen"></i></Link>
+                                </div>
                             </div>
                            ) :  <Preloader /> }
                         </div>
@@ -125,7 +151,15 @@ export default function PostItem({ params }: { params: Promise<{ id: string }>})
                                 </div>
                                </div>
                             </div>
-                            {/* video section */}
+                            <div className="aside-block">
+                                <h3 className="aside title">Video</h3>
+                                <div className="video-post">
+                                    <a target='_blank' href="https://www.youtube.com/watch?v=uHNS_ZhI62c" className="link-video">
+                                        <span className="bi-play-fill"></span>
+                                        <img src="/assets/img/post-landscape-3.jpg" alt="" className="img-fluid" />
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
